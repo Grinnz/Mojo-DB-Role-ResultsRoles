@@ -26,7 +26,7 @@
    "prereqs" : {
       "configure" : {
          "requires" : {
-            "ExtUtils::MakeMaker" : "0"
+            "Module::Build::Tiny" : "0.034"
          }
       },
       "develop" : {
@@ -50,8 +50,8 @@
             "CPAN::Meta" : "2.120900"
          },
          "requires" : {
-            "ExtUtils::MakeMaker" : "0",
             "File::Spec" : "0",
+            "Module::Metadata" : "0",
             "Test::More" : "0.88",
             "Test::Needs" : "0"
          }
@@ -60,7 +60,7 @@
    "provides" : {
       "Mojo::DB::Role::ResultsRoles" : {
          "file" : "lib/Mojo/DB/Role/ResultsRoles.pm",
-         "version" : "v0.1.0"
+         "version" : "v0.1.1"
       }
    },
    "release_status" : "stable",
@@ -76,7 +76,7 @@
       },
       "x_IRC" : "irc://irc.freenode.net/#mojo"
    },
-   "version" : "v0.1.0",
+   "version" : "v0.1.1",
    "x_Dist_Zilla" : {
       "perl" : {
          "version" : "5.030000"
@@ -217,11 +217,11 @@
             "config" : {
                "Dist::Zilla::Plugin::CopyFilesFromRelease" : {
                   "filename" : [
+                     "Build.PL",
                      "CONTRIBUTING.md",
                      "INSTALL",
                      "LICENSE",
-                     "META.json",
-                     "Makefile.PL"
+                     "META.json"
                   ],
                   "match" : []
                }
@@ -240,12 +240,12 @@
                },
                "Dist::Zilla::Role::Git::DirtyFiles" : {
                   "allow_dirty" : [
+                     "Build.PL",
                      "CONTRIBUTING.md",
                      "Changes",
                      "INSTALL",
                      "LICENSE",
                      "META.json",
-                     "Makefile.PL",
                      "README.pod",
                      "dist.ini"
                   ],
@@ -270,7 +270,7 @@
                   "branch" : null,
                   "changelog" : "Changes",
                   "signed" : 0,
-                  "tag" : "v0.1.0",
+                  "tag" : "v0.1.1",
                   "tag_format" : "%v",
                   "tag_message" : "%v"
                },
@@ -366,11 +366,11 @@
                "Dist::Zilla::Plugin::GatherDir" : {
                   "exclude_filename" : [
                      "Build.PL",
+                     "Build.PL",
                      "CONTRIBUTING.md",
                      "INSTALL",
                      "LICENSE",
                      "META.json",
-                     "Makefile.PL",
                      "Makefile.PL"
                   ],
                   "exclude_match" : [],
@@ -454,14 +454,39 @@
             "version" : "6.012"
          },
          {
-            "class" : "Dist::Zilla::Plugin::MakeMaker",
+            "class" : "Dist::Zilla::Plugin::ModuleBuildTiny::Fallback",
             "config" : {
+               "Dist::Zilla::Plugin::ModuleBuildTiny::Fallback" : {
+                  "mb_version" : "0.28",
+                  "plugins" : [
+                     {
+                        "class" : "Dist::Zilla::Plugin::ModuleBuild",
+                        "config" : {
+                           "Dist::Zilla::Role::TestRunner" : {
+                              "default_jobs" : 1
+                           }
+                        },
+                        "name" : "ModuleBuild, via ModuleBuildTiny::Fallback",
+                        "version" : "6.012"
+                     },
+                     {
+                        "class" : "Dist::Zilla::Plugin::ModuleBuildTiny",
+                        "config" : {
+                           "Dist::Zilla::Role::TestRunner" : {
+                              "default_jobs" : 1
+                           }
+                        },
+                        "name" : "ModuleBuildTiny, via ModuleBuildTiny::Fallback",
+                        "version" : "0.015"
+                     }
+                  ]
+               },
                "Dist::Zilla::Role::TestRunner" : {
                   "default_jobs" : 1
                }
             },
-            "name" : "@Author::DBOOK/MakeMaker",
-            "version" : "6.012"
+            "name" : "@Author::DBOOK/ModuleBuildTiny::Fallback",
+            "version" : "0.025"
          },
          {
             "class" : "Dist::Zilla::Plugin::RunExtraTests",
