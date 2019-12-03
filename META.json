@@ -1,5 +1,5 @@
 {
-   "abstract" : "Apply roles to Mojo DB results",
+   "abstract" : "Apply roles to Mojo database results",
    "author" : [
       "Dan Book <dbook@cpan.org>"
    ],
